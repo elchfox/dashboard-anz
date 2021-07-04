@@ -14,7 +14,6 @@ import Form from './Form';
   
 const CustomTable = () => {
     const [visible, setVisible] = useState(false)
-
     const numberWithCommas =  (x) =>{
         var parts = x.toFixed(2).toString().split(".");
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -38,15 +37,15 @@ const CustomTable = () => {
                     <div className="btn-action wapper-action centring blue" 
                    
                     onClick={()=> openModal("create")}> <AiOutlinePlus style={{fontSize:22}} /> </div>
-                    <div className={`btn-action wapper-action centring ${GeneralStore.selectItem !== null ? "success" : "gray"}`} 
-                    disabled={GeneralStore.selectItem === null}
+                    <div className={`btn-action wapper-action centring ${GeneralStore.selectId !== null ? "success" : "gray"}`} 
+                    disabled={GeneralStore.selectId === null}
                     onClick={()=> openModal("edit")}> <AiOutlineEdit  style={{fontSize:22}} /></div>
                     <div className="btn-action wapper-action centring blue" onClick={()=> {}}> <AiOutlineSend style={{fontSize:22}} /></div>
                 </div>
             </div>
             <div className={"row-around table-header"}>
                 <div className={"align-center header-tab"} style={{flex:0.1}} >
-                    <AiOutlineCheck className={`circle ${GeneralStore.selectItem !== null ? "success" : 'gray'}`}/>
+                    <AiOutlineCheck className={`circle ${GeneralStore.selectId !== null ? "success" : 'gray'}`}/>
                 </div>
                 {GeneralStore.parts.table.columns.map((item,index)=>
                     <div className={"align-center header-tab"} 
@@ -70,8 +69,8 @@ const CustomTable = () => {
                 <div className="row-around table-row" key={index}>
                     <div className={"table-column"} style={{flex:0.1}}>
                         <AiOutlineCheck 
-                        onClick={()=> GeneralStore.onSelect(GeneralStore.start + index)}
-                        className={`circle ${GeneralStore.selectItem === GeneralStore.start + index ? "success" : 'gray'}`}/>
+                        onClick={()=> GeneralStore.onSelect(item._id)}
+                        className={`circle ${GeneralStore.selectId === item._id  ? "success" : 'gray'}`}/>
                     </div>
                     <div className={"table-column"}>{item.name}</div>
                     <div className={"table-column"}>{item.app_secret}</div>

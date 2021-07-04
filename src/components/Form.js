@@ -4,6 +4,8 @@ import { GeneralStore } from '../stores';
 
 import { AiOutlineCloseCircle} from "react-icons/ai";
 import { toJS } from 'mobx';
+const _id = require('generate-unique-id');
+
 const initialInfo = {
     name:null,
     app_type:'Unreal based app',
@@ -15,12 +17,14 @@ const initialInfo = {
 const Form = ({onCancel}) => {
 
     const [info, setInfo] = useState(GeneralStore.statusEditData !== "create" ? 
-    toJS(GeneralStore.dataJson[GeneralStore.selectItem]): initialInfo)
+        toJS(GeneralStore.dataSelected): initialInfo)
     const onSubmit = (e)=> {
         e.preventDefault()
         if(GeneralStore.statusEditData !== "create"){
             GeneralStore.onEdit(info)
-        }else{GeneralStore.onSubmit(info)}
+        }else{
+            info._id = _id()
+            GeneralStore.onSubmit(info)}
         onCancel(false)
     }
 

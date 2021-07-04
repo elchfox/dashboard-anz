@@ -1,150 +1,8 @@
 import { makeAutoObservable, runInAction, toJS} from "mobx"
 import config from '../front_lead_home_assignment';
+import FetchData from '../data'
 
-var FetchData = [
-  {
-      name: "name",
-      app_secret: "app secret",
-      app_type: "game",
-      active: true,
-      impressions:0,
-      revenue: 15000},
-  {
-      name: "name",
-      app_secret: "app secret",
-      app_type: "game",
-      active: true,
-      impressions:0,
-      revenue: 15000},
-      {
-      name: "name",
-      app_secret: "app secret",
-      app_type: "game 2",
-      active: false,
-      impressions:1,
-      revenue: 1000
-  },
-      {name: "name 3",
-      app_secret: "app secret",
-      app_type: "game 3",
-      active: true,
-      impressions:1,
-      revenue: 15000},
-      {name: "name",
-      app_secret: "app secret",
-      app_type: "game 4",
-      active: true,
-      impressions:0,
-      revenue: 15000},
-  {
-      name: "name",
-      app_secret: "app secret",
-      app_type: "game",
-      active: true,
-      impressions:0,
-      revenue: 15000},
-      {
-      name: "name",
-      app_secret: "app secret",
-      app_type: "game 2",
-      active: false,
-      impressions:1,
-      revenue: 1000
-  },
-      {name: "name 3",
-      app_secret: "app secret",
-      app_type: "game 3",
-      active: true,
-      impressions:1,
-      revenue: 15000},
-      {name: "name",
-      app_secret: "app secret",
-      app_type: "game 4",
-      active: true,
-      impressions:0,
-      revenue: 15000},
-  {
-      name: "name",
-      app_secret: "app secret",
-      app_type: "game",
-      active: true,
-      impressions:0,
-      revenue: 15000},
-      {
-      name: "name",
-      app_secret: "app secret",
-      app_type: "game 2",
-      active: false,
-      impressions:1,
-      revenue: 1000
-  },
-      {name: "name 3",
-      app_secret: "app secret",
-      app_type: "game 3",
-      active: true,
-      impressions:1,
-      revenue: 15000},
-      {name: "name",
-      app_secret: "app secret",
-      app_type: "game 4",
-      active: true,
-      impressions:0,
-      revenue: 15000},
-  {
-      name: "name",
-      app_secret: "app secret",
-      app_type: "game",
-      active: true,
-      impressions:0,
-      revenue: 15000},
-      {
-      name: "name",
-      app_secret: "app secret",
-      app_type: "game 2",
-      active: false,
-      impressions:1,
-      revenue: 1000
-  },
-      {name: "name 3",
-      app_secret: "app secret",
-      app_type: "game 3",
-      active: true,
-      impressions:1,
-      revenue: 15000},
-      {name: "name",
-      app_secret: "app secret",
-      app_type: "game 4",
-      active: true,
-      impressions:0,
-      revenue: 15000},
-  {
-      name: "name",
-      app_secret: "app secret",
-      app_type: "game",
-      active: true,
-      impressions:0,
-      revenue: 15000},
-      {
-      name: "name",
-      app_secret: "app secret",
-      app_type: "game 2",
-      active: false,
-      impressions:1,
-      revenue: 1000
-  },
-      {name: "name 3",
-      app_secret: "app secret",
-      app_type: "game 3",
-      active: true,
-      impressions:1,
-      revenue: 15000},
-      {name: "name",
-      app_secret: "app secret",
-      app_type: "game 4",
-      active: true,
-      impressions:0,
-      revenue: 15000},
-  ]
+
 class GeneralStore {
   parts  = {}
    dataJson = [...FetchData]
@@ -152,7 +10,8 @@ class GeneralStore {
   currentPage = 0
   statusEditData = "create"
   maxPage = 0
-  selectItem = null;
+  dataSelected = null;
+  selectId = null
   start =  0
   end = 20
   descending = 0;
@@ -161,6 +20,7 @@ class GeneralStore {
   redirect = null
     constructor() {
         makeAutoObservable(this)
+        console.log(FetchData.length)
     }
 
    initialConfig = ()=> {
@@ -209,6 +69,7 @@ class GeneralStore {
       })
      }
      onSubmit = (data)=> {
+
       runInAction(()=> {
         FetchData.unshift(data)
        this.dataJson = [...FetchData]
@@ -217,15 +78,17 @@ class GeneralStore {
      }
      onEdit = (data)=> {
       runInAction(()=> {
-        FetchData[this.selectItem] = data
+       let indexOf =  FetchData.findIndex((e)=> e._id === this.dataSelected)
+        FetchData[indexOf] = data
        this.dataJson = [...FetchData]
 
       })
      }
-     onSelect = (selected)=> {
+     onSelect = (_id)=> {
       runInAction(()=> {
-      this.selectItem = this.selectItem === selected ? null : selected
-
+      this.selectId = _id
+     this.dataSelected =  FetchData.find((e)=> e._id === _id)
+     console.log(toJS(this.dataSelected))
       })
      }
 }
