@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import './helper/Global';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch,Redirect } from 'react-router-dom';
+import StoreProvider, { GeneralStore } from './stores';
+import {  useObserver } from "mobx-react";
 
+import Home from './pages/Home';
+import Topbar from './components/Topbar';
 function App() {
-  return (
+
+  
+
+    useEffect(() => {
+     
+      GeneralStore.initialConfig()
+    }, [])
+  return useObserver(()=>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+     {GeneralStore.loading &&  <StoreProvider>
+        <Router>
+        <Topbar/>
+          <Switch>
+            <Route  path="/Apps" component={Home} />
+          </Switch>
+          {GeneralStore.redirect !== null && <Redirect to={GeneralStore.redirect}/>}
+        </Router>
+      </StoreProvider>}
+    </div> 
   );
 }
 
