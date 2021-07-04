@@ -9,17 +9,20 @@ import { AiOutlineSetting, AiOutlineSync , AiOutlineInbox,AiOutlineFunnelPlot,
     AiOutlineCheck,
     AiFillCaretUp} from "react-icons/ai";
 import Form from './Form';
-import CreateForm from './CreateForm';
 
 
   
 const CustomTable = () => {
-    const [visibleCreate, setVisibleCreate] = useState(false)
-    const [visibleEdit, setVisibleEdit] = useState(false)
+    const [visible, setVisible] = useState(false)
+
     const numberWithCommas =  (x) =>{
         var parts = x.toFixed(2).toString().split(".");
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return parts.join(".");
+    }
+    const openModal = (typeForm)=> {
+        GeneralStore.statusEditData = typeForm 
+        setVisible(true)
     }
 
     return  useObserver(()=>
@@ -34,10 +37,10 @@ const CustomTable = () => {
                 <div className="row">
                     <div className="btn-action wapper-action centring blue" 
                    
-                    onClick={()=> setVisibleCreate(true)}> <AiOutlinePlus style={{fontSize:22}} /> </div>
+                    onClick={()=> openModal("create")}> <AiOutlinePlus style={{fontSize:22}} /> </div>
                     <div className={`btn-action wapper-action centring ${GeneralStore.selectItem !== null ? "success" : "gray"}`} 
                     disabled={GeneralStore.selectItem === null}
-                    onClick={()=> setVisibleEdit(true)}> <AiOutlineEdit  style={{fontSize:22}} /></div>
+                    onClick={()=> openModal("edit")}> <AiOutlineEdit  style={{fontSize:22}} /></div>
                     <div className="btn-action wapper-action centring blue" onClick={()=> {}}> <AiOutlineSend style={{fontSize:22}} /></div>
                 </div>
             </div>
@@ -80,8 +83,7 @@ const CustomTable = () => {
                 </div>
                 )}
             </div>
-            {visibleEdit && <Form onCancel={(visibleEdit)=> setVisibleEdit(visibleEdit)}/>}
-            {visibleCreate && <CreateForm onCancel={(visibleCreate)=> setVisibleCreate(visibleCreate)}/>}
+            {visible && <Form onCancel={(visible)=> setVisible(visible)}/>}
         </div>
     );
 };

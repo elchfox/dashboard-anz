@@ -150,6 +150,7 @@ class GeneralStore {
    dataJson = [...FetchData]
   limit = 20
   currentPage = 0
+  statusEditData = "create"
   maxPage = 0
   selectItem = null;
   start =  0

@@ -4,13 +4,24 @@ import { GeneralStore } from '../stores';
 
 import { AiOutlineCloseCircle} from "react-icons/ai";
 import { toJS } from 'mobx';
-
+const initialInfo = {
+    name:null,
+    app_type:'Unreal based app',
+    active:false,
+    app_secret:null,
+    impressions:null,
+    revenue:null
+}
 const Form = ({onCancel}) => {
 
-    const [info, setInfo] = useState(toJS(GeneralStore.dataJson[GeneralStore.selectItem]))
+    const [info, setInfo] = useState(GeneralStore.statusEditData !== "create" ? 
+    toJS(GeneralStore.dataJson[GeneralStore.selectItem]): initialInfo)
+    console.log(info)
     const onSubmit = (e)=> {
         e.preventDefault()
-        GeneralStore.onEdit(info)
+        if(GeneralStore.statusEditData !== "create"){
+            GeneralStore.onEdit(info)
+        }else{GeneralStore.onSubmit(info)}
         onCancel(false)
     }
 
@@ -29,8 +40,9 @@ const Form = ({onCancel}) => {
         </select>
         }else{
             return <input id={`id-${item.field}`} type={item.type} 
-            onChange={(e)=> onChange(item.field, e.target.value)}
-            value={info[item.field]} readOnly={item.readOnly} name={item.field} />    
+            onChange={(e)=> onChange(item.field,item.type === "number" ? Number(e.target.value): e.target.value)}
+            value={info[item.field]} readOnly={GeneralStore.statusEditData !== "create" && item.readOnly} 
+            name={item.field} />    
         }
     }
 
