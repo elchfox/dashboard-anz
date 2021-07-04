@@ -165,7 +165,6 @@ class GeneralStore {
 
    initialConfig = ()=> {
      runInAction(()=> {
-       console.log(this.dataJson.length)
       this.maxPage =  parseInt((this.dataJson.length / this.limit) + 1)
       this.parts =  config.navigation[0]
       this.redirect =  config.navigation[0].route;

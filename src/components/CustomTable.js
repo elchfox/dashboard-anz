@@ -69,7 +69,6 @@ const CustomTable = () => {
                 { GeneralStore.dataJson.slice(GeneralStore.start,GeneralStore.end).map((item,index)=>
                 <div className="row-around table-row" key={index}>
                     <div className={"table-column"} style={{flex:0.1}}>
-                        {console.log(GeneralStore.selectItem === GeneralStore.start + index)}
                         <AiOutlineCheck 
                         onClick={()=> GeneralStore.onSelect(GeneralStore.start + index)}
                         className={`circle ${GeneralStore.selectItem === GeneralStore.start + index ? "success" : 'gray'}`}/>

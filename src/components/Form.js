@@ -16,7 +16,6 @@ const Form = ({onCancel}) => {
 
     const [info, setInfo] = useState(GeneralStore.statusEditData !== "create" ? 
     toJS(GeneralStore.dataJson[GeneralStore.selectItem]): initialInfo)
-    console.log(info)
     const onSubmit = (e)=> {
         e.preventDefault()
         if(GeneralStore.statusEditData !== "create"){
