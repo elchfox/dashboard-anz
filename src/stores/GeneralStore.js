@@ -215,6 +215,13 @@ class GeneralStore {
 
       })
      }
+     onEdit = (data)=> {
+      runInAction(()=> {
+        FetchData[this.selectItem] = data
+       this.dataJson = [...FetchData]
+
+      })
+     }
      onSelect = (selected)=> {
       runInAction(()=> {
       this.selectItem = this.selectItem === selected ? null : selected

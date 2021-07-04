@@ -3,28 +3,34 @@ import {  useObserver } from "mobx-react";
 import { GeneralStore } from '../stores';
 
 import { AiOutlineCloseCircle} from "react-icons/ai";
-const initialInfo = {
-    name:null,
-    app_type:[],
-    active:false,
-    app_secret:null,
-    impressions:0,
-    revenue:0
-}
+import { toJS } from 'mobx';
+
 const Form = ({onCancel}) => {
 
-        const [info, setInfo] = useState(initialInfo)
-    const onSubmit = ()=> {
-        
+    const [info, setInfo] = useState(toJS(GeneralStore.dataJson[GeneralStore.selectItem]))
+    const onSubmit = (e)=> {
+        e.preventDefault()
+        GeneralStore.onEdit(info)
+        onCancel(false)
     }
 
+    const onChange =(key,text)=> {
+        setInfo({
+             ...info,
+            [key]:text
+        })
+    }
     const onSwitch = (item)=> {
         if(item.type === 'options'){
-            return <select id={`id-${item.field}`} name={item.field}>
+            return <select id={`id-${item.field}`}
+            onChange={(e)=> onChange(item.field, e.target.value)}
+            value={info[item.field]} name={item.field}>
             {item.options.map((option)=> <option value={option.value}>{option.label}</option>) }
         </select>
         }else{
-            return <input id={`id-${item.field}`} type={item.type} readOnly={item.readOnly} name={item.field} />    
+            return <input id={`id-${item.field}`} type={item.type} 
+            onChange={(e)=> onChange(item.field, e.target.value)}
+            value={info[item.field]} readOnly={item.readOnly} name={item.field} />    
         }
     }
 
@@ -43,7 +49,7 @@ const Form = ({onCancel}) => {
                 
             )}
             <div className={'row'}>
-                        <button className={"btn success"}  onClick={()=> onSubmit()}>Submit</button>
+                        <button className={"btn success"}  onClick={(e)=> onSubmit(e)}>Submit</button>
                         <button className={"btn danger"} onClick={()=> onCancel(false)}>Cancle</button>
             </div>
         </form>
