@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction, toJS} from "mobx"
 import config from '../front_lead_home_assignment';
 
-const FetchData = [
+var FetchData = [
   {
       name: "name",
       app_secret: "app secret",
@@ -151,6 +151,7 @@ class GeneralStore {
   limit = 20
   currentPage = 0
   maxPage = 0
+  selectItem = null;
   start =  0
   end = 20
   descending = 0;
@@ -180,7 +181,7 @@ class GeneralStore {
        this.end = this.start + this.limit
       })
      }
-     OnChangePage = (num)=> {
+    onChangePage = (num)=> {
       runInAction(()=> {
         this.currentPage = num 
        this.maxPage =  parseInt((this.dataJson.length / this.limit) + 1)
@@ -188,7 +189,7 @@ class GeneralStore {
        this.end = this.start + this.limit
       })
      }
-     OnSort = (keyName,descending)=> {
+     onSort = (keyName,descending)=> {
       runInAction(()=> {
        let sorted =  FetchData.sort((a,b)=> {
           if(descending  === 1){
@@ -202,6 +203,19 @@ class GeneralStore {
       })
        this.dataJson = [...sorted]
        this.descending = descending
+
+      })
+     }
+     onSubmit = (data)=> {
+      runInAction(()=> {
+        FetchData.unshift(data)
+       this.dataJson = [...FetchData]
+
+      })
+     }
+     onSelect = (selected)=> {
+      runInAction(()=> {
+      this.selectItem = this.selectItem === selected ? null : selected
 
       })
      }

@@ -39,29 +39,38 @@
     .wapper-action{
       padding: 5px;
       border-radius: 20px;
-      background: #01579b;
       color: white;
     }
   }
   .table-header{
     background: #eeeeee;
-    padding: 10px;
+    padding: 10px 15px;
     color: #01579b;
+    .align-center.header-tab {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      justify-content: center;
+  }
 
   }
-  .table-row:nth-child(odd) {
-    background: #fafafa;
-
+  .table-row{
+    padding: 0 15px;
+    &:nth-child(odd) {
+      background: #fafafa;
+  
+    }
+    &:nth-child(even) {
+      background: #f5f5f5;
+  
+    }
   }
-  .table-row:nth-child(even) {
-    background: #f5f5f5;
 
-  }
   .table-column {
     text-align: center;
     flex: 1;
-    padding: 3px;
-  }
+    padding: 3px 0;
+    }
 }
 
 
@@ -98,11 +107,4 @@
   border-width: 0;
   color: white;
   margin: 0 5px;
-  &.danger{
-    background: rgb(255, 95, 95);
-
-  }
-  &.success{
-    background-color: rgb(0, 173, 0);
-  }
 }

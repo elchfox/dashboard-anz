@@ -6,13 +6,16 @@ import { AiOutlineSetting, AiOutlineSync , AiOutlineInbox,AiOutlineFunnelPlot,
     AiOutlineEdit,
     AiOutlineSend,
     AiFillCaretDown,
+    AiOutlineCheck,
     AiFillCaretUp} from "react-icons/ai";
 import Form from './Form';
+import CreateForm from './CreateForm';
 
 
   
 const CustomTable = () => {
-    const [visible, setVisible] = useState(false)
+    const [visibleCreate, setVisibleCreate] = useState(false)
+    const [visibleEdit, setVisibleEdit] = useState(false)
     const numberWithCommas =  (x) =>{
         var parts = x.toFixed(2).toString().split(".");
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -29,20 +32,30 @@ const CustomTable = () => {
                     <div className="btn-action centring"> <AiOutlineFunnelPlot style={{fontSize:22}} /></div>
                 </div>
                 <div className="row">
-                    <div className="btn-action wapper-action centring" onClick={()=> setVisible(true)}> <AiOutlinePlus style={{fontSize:22}} /> </div>
-                    <div className="btn-action wapper-action centring" onClick={()=> {}}> <AiOutlineEdit  style={{fontSize:22}} /></div>
-                    <div className="btn-action wapper-action centring" onClick={()=> {}}> <AiOutlineSend style={{fontSize:22}} /></div>
+                    <div className="btn-action wapper-action centring blue" 
+                   
+                    onClick={()=> setVisibleCreate(true)}> <AiOutlinePlus style={{fontSize:22}} /> </div>
+                    <div className={`btn-action wapper-action centring ${GeneralStore.selectItem !== null ? "success" : "gray"}`} 
+                    disabled={GeneralStore.selectItem === null}
+                    onClick={()=> setVisibleEdit(true)}> <AiOutlineEdit  style={{fontSize:22}} /></div>
+                    <div className="btn-action wapper-action centring blue" onClick={()=> {}}> <AiOutlineSend style={{fontSize:22}} /></div>
                 </div>
             </div>
             <div className={"row-around table-header"}>
-                {GeneralStore.parts.table.columns.map((item)=>
-                    <div className={"row align-center header-tab"} 
-                    onClick={()=> GeneralStore.OnSort(item.field,GeneralStore.descending === 1 ? 2 : 1)}
+                <div className={"align-center header-tab"} style={{flex:0.1}} >
+                    <AiOutlineCheck className={`circle ${GeneralStore.selectItem !== null ? "success" : 'gray'}`}/>
+                </div>
+                {GeneralStore.parts.table.columns.map((item,index)=>
+                    <div className={"align-center header-tab"} 
+                    key={index}
+                    onClick={()=> GeneralStore.onSort(item.field,GeneralStore.descending === 1 ? 2 : 1)}
                     name={item.field}>
+                        <div className="row">
                         <b>{item.header}</b>
                         <div className="column box-sort">
                             <AiFillCaretUp className={`arrow-sort ${GeneralStore.descending  === 1? "black" : ""}`}/>
                             <AiFillCaretDown className={`arrow-sort ${GeneralStore.descending === 2 ?"black" : ""}`}/>
+                        </div>
                         </div>
                     </div>
                 )}
@@ -52,6 +65,12 @@ const CustomTable = () => {
                 
                 { GeneralStore.dataJson.slice(GeneralStore.start,GeneralStore.end).map((item,index)=>
                 <div className="row-around table-row" key={index}>
+                    <div className={"table-column"} style={{flex:0.1}}>
+                        {console.log(GeneralStore.selectItem === GeneralStore.start + index)}
+                        <AiOutlineCheck 
+                        onClick={()=> GeneralStore.onSelect(GeneralStore.start + index)}
+                        className={`circle ${GeneralStore.selectItem === GeneralStore.start + index ? "success" : 'gray'}`}/>
+                    </div>
                     <div className={"table-column"}>{item.name}</div>
                     <div className={"table-column"}>{item.app_secret}</div>
                     <div className={"table-column"}>{item.app_type}</div>
@@ -61,7 +80,8 @@ const CustomTable = () => {
                 </div>
                 )}
             </div>
-            {visible && <Form onCancel={(visible)=> setVisible(visible)}/>}
+            {visibleEdit && <Form onCancel={(visibleEdit)=> setVisibleEdit(visibleEdit)}/>}
+            {visibleCreate && <CreateForm onCancel={(visibleCreate)=> setVisibleCreate(visibleCreate)}/>}
         </div>
     );
 };

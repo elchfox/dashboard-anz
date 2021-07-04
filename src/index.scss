@@ -12,7 +12,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .App{
-
+  [disabled]
+  {
+    pointer-events: none;
+    opacity: 0.7;
+  }
   h1, h2, h3, h4 , h5 ,h6{
     margin: 0;
 
@@ -92,5 +96,24 @@ body {
       color: black;
     }
   }
-  
+  .circle {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    padding: 02px;
+    color: white;
+}
+.gray{
+  background-color: #b3b3b3;
+}
+.danger{
+  background-color: rgb(255, 95, 95);
+
+}
+.success{
+  background-color: rgb(0, 173, 0);
+}
+.blue{
+  background-color:  #01579b;
+}
 }

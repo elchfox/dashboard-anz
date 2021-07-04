@@ -25,13 +25,13 @@ const Home = () => {
                         <div className={"align-center space-right"}>
                             {GeneralStore.currentPage !== 0 && 
                             <> 
-                                <BsChevronDoubleLeft onClick={()=>  GeneralStore.OnChangePage(0)}/>
-                                <BsChevronLeft onClick={()=>GeneralStore.OnChangePage(GeneralStore.currentPage - 1) }/>
+                                <BsChevronDoubleLeft onClick={()=>  GeneralStore.onChangePage(0)}/>
+                                <BsChevronLeft onClick={()=>GeneralStore.onChangePage(GeneralStore.currentPage - 1) }/>
                              </>}
                              {GeneralStore.currentPage + 1 < GeneralStore.maxPage && 
                              <>
-                             <BsChevronRight onClick={()=>GeneralStore.OnChangePage(GeneralStore.currentPage + 1)}/>
-                            <BsChevronDoubleRight onClick={()=>GeneralStore.OnChangePage(GeneralStore.maxPage - 1)}/>
+                             <BsChevronRight onClick={()=>GeneralStore.onChangePage(GeneralStore.currentPage + 1)}/>
+                            <BsChevronDoubleRight onClick={()=>GeneralStore.onChangePage(GeneralStore.maxPage - 1)}/>
                             </>}
                         </div>
                     </div>
