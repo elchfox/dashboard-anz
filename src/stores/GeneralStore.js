@@ -155,6 +155,7 @@ class GeneralStore {
   start =  0
   end = 20
   descending = 0;
+  sortName = null
   loading = false
   redirect = null
     constructor() {
@@ -191,6 +192,7 @@ class GeneralStore {
      }
      onSort = (keyName,descending)=> {
       runInAction(()=> {
+        this.sortName = keyName
        let sorted =  FetchData.sort((a,b)=> {
           if(descending  === 1){
             if(a[keyName] < b[keyName]) return -1

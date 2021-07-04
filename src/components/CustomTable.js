@@ -53,8 +53,8 @@ const CustomTable = () => {
                         <div className="row">
                         <b>{item.header}</b>
                         <div className="column box-sort">
-                            <AiFillCaretUp className={`arrow-sort ${GeneralStore.descending  === 1? "black" : ""}`}/>
-                            <AiFillCaretDown className={`arrow-sort ${GeneralStore.descending === 2 ?"black" : ""}`}/>
+                            <AiFillCaretUp className={`arrow-sort ${GeneralStore.sortName == item.field && GeneralStore.descending  === 1? "black" : ""}`}/>
+                            <AiFillCaretDown className={`arrow-sort ${GeneralStore.sortName == item.field && GeneralStore.descending === 2 ?"black" : ""}`}/>
                         </div>
                         </div>
                     </div>
