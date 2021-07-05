@@ -1,17 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import CustomTable from '../components/CustomTable';
 
 import {  useObserver } from "mobx-react";
 import { GeneralStore } from '../stores';
 
 import {BsChevronLeft,BsChevronRight,BsChevronDoubleLeft,BsChevronDoubleRight} from "react-icons/bs";
-import { toJS } from 'mobx';
 
 const Home = () => {
-
-        const OnChangePage =(nu)=> {
-
-        }
+   
+      
     return  useObserver(()=>
     <>
         <div className="title-page row-between align-center">

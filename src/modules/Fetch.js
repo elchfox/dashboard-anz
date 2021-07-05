@@ -4,9 +4,10 @@ class Fetch {
 
   async GetFetch(url, params = {}) {
 
-    const data = await fetch(`${global.base_url}${url}`)
+    const data = await fetch(url)
+    console.log(data)
     const json = await data.json()
-
+    console.log(json)
     return json
   }
   

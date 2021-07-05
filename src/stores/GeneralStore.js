@@ -1,11 +1,11 @@
 import { makeAutoObservable, runInAction, toJS} from "mobx"
 import config from '../front_lead_home_assignment';
-import FetchData from '../data'
+import General from "../modules/General";
 
 
 class GeneralStore {
   parts  = {}
-   dataJson = [...FetchData]
+   dataJson = []
   limit = 20
   currentPage = 0
   statusEditData = "create"
@@ -20,11 +20,11 @@ class GeneralStore {
   redirect = null
     constructor() {
         makeAutoObservable(this)
-        console.log(FetchData.length)
     }
 
    initialConfig = ()=> {
-     runInAction(()=> {
+     runInAction(async ()=> {
+      this.dataJson =  await General.getData()
       this.maxPage =  parseInt((this.dataJson.length / this.limit) + 1)
       this.parts =  config.navigation[0]
       this.redirect =  config.navigation[0].route;
@@ -51,9 +51,11 @@ class GeneralStore {
       })
      }
      onSort = (keyName,descending)=> {
-      runInAction(()=> {
+      runInAction(async ()=> {
         this.sortName = keyName
-       let sorted =  FetchData.sort((a,b)=> {
+        let res = await General.getData()
+
+       let sorted =  res.sort((a,b)=> {
           if(descending  === 1){
             if(a[keyName] < b[keyName]) return -1
           }else{
@@ -70,25 +72,29 @@ class GeneralStore {
      }
      onSubmit = (data)=> {
 
-      runInAction(()=> {
-        FetchData.unshift(data)
-       this.dataJson = [...FetchData]
+      runInAction(async ()=> {
+        let res = await General.getData()
+
+        res.unshift(data)
+       this.dataJson = [...res]
 
       })
      }
      onEdit = (data)=> {
-      runInAction(()=> {
-       let indexOf =  FetchData.findIndex((e)=> e._id === this.dataSelected)
-        FetchData[indexOf] = data
-       this.dataJson = [...FetchData]
+      runInAction(async ()=> {
+        let res = await General.getData()
+       let indexOf =   res.findIndex((e)=> e._id === this.dataSelected)
+       res[indexOf] = data
+       this.dataJson = [...res]
 
       })
      }
      onSelect = (_id)=> {
-      runInAction(()=> {
+      runInAction(async ()=> {
+        let res = await General.getData()
+
       this.selectId = _id
-     this.dataSelected =  FetchData.find((e)=> e._id === _id)
-     console.log(toJS(this.dataSelected))
+     this.dataSelected =  res.find((e)=> e._id === _id)
       })
      }
 }
